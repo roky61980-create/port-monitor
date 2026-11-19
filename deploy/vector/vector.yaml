@@ -1,0 +1,22 @@
+sources:
+  otel_events:
+    type: http_server
+    address: 0.0.0.0:9000
+    encoding: json
+transforms:
+  normalize:
+    type: remap
+    inputs: [otel_events]
+    source: |
+      .timestamp = to_timestamp(now()) ?? now()
+sinks:
+  influxdb:
+    type: http
+    inputs: [normalize]
+    uri: "${INFLUXDB_URL:-http://127.0.0.1:8086}/api/v2/write?org=${INFLUXDB_ORG:-emnetwork}&bucket=${INFLUXDB_BUCKET:-network}&precision=s"
+    method: post
+    encoding:
+      codec: json
+    request:
+      headers:
+        Authorization: "Token ${INFLUXDB_TOKEN}"

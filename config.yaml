@@ -1,0 +1,21 @@
+server:
+  listen: "0.0.0.0:8080"
+snmp:
+  trap_listen: "0.0.0.0:162"
+optical:
+  enabled: true
+  poll_interval: 60s
+  workers: 4
+otel:
+  endpoint: "127.0.0.1:4317"
+influxdb:
+  url: "http://127.0.0.1:8086"
+  org: "emnetwork"
+  bucket: "network"
+alerts:
+  dedup_window: 60s
+  hysteresis: true
+sse:
+  enabled: true
+database:
+  path: "port-monitor.db"

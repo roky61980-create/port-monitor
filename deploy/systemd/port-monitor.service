@@ -1,0 +1,20 @@
+[Unit]
+Description=EM Network Port Monitor
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=port-monitor
+Group=port-monitor
+WorkingDirectory=/opt/port-monitor
+ExecStart=/opt/port-monitor/server
+Restart=on-failure
+RestartSec=5
+EnvironmentFile=-/etc/port-monitor/port-monitor.env
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/port-monitor
+
+[Install]
+WantedBy=multi-user.target
